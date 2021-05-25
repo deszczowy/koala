@@ -34,17 +34,19 @@ class Tree(QTreeWidget):
             item = self.selectedItems()[0]
 
             if item != None:
-                self.remove_specified_leaf(item)
+                return self.remove_specified_leaf(item)
+        return False
 
     def remove_specified_leaf(self, leaf):
         if not leaf.are_all_children_checked():
-            return
+            return False
             
         if leaf.parent() is not None:
             leaf.parent().removeChild(leaf)
         else:
             self.takeTopLevelItem(self.indexOfTopLevelItem(leaf))
         self.modified = True
+        return True
 
     def find_node(self, identifier):
         iterator = QTreeWidgetItemIterator(self)

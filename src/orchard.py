@@ -1,5 +1,5 @@
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut
 from datetime import datetime
 
 from tool import *
@@ -24,6 +24,7 @@ class Orchard(QMainWindow):
        
         self.compose_window()
         self.update_components()
+        self.create_chortcuts()
         self.setup_window()
 
         self.timer = Timer(self)
@@ -98,6 +99,17 @@ class Orchard(QMainWindow):
         self.setStyleSheet(application_stylesheet)
         self.tree.setFocus()
 
+    def create_chortcuts(self):
+        shortcut_add = QShortcut(QKeySequence("Ctrl+N"), self)
+        shortcut_del = QShortcut(QKeySequence("Ctrl+D"), self)
+        shortcut_rec = QShortcut(QKeySequence("Ctrl+R"), self)
+        shortcut_bkp = QShortcut(QKeySequence("Ctrl+B"), self)
+
+        shortcut_add.activated.connect(self.action_add)
+        shortcut_del.activated.connect(self.action_delete)
+        shortcut_rec.activated.connect(self.action_recycle)
+        shortcut_bkp.activated.connect(self.action_record)
+
     def update_components(self):
         data = read_file(self.directory.storage)
         self.tree.fill(data)
@@ -110,15 +122,21 @@ class Orchard(QMainWindow):
         self.task.show_window(self.tree, item)
 
     def action_delete(self):
-        self.tree.remove_leaf()
+        if ask("Task delete", "Do You want to delete selected task?"):
+            if self.tree.remove_leaf():
+                self.set_message("Task deleted!")
+            else:
+                self.set_message("Task can not be deleted! Maybe some subtasks needs to be done.")
 
     def action_recycle(self):
-        self.tree.recycle()
+        if ask("Recycling", "Do You want to recycle all done tasks?"):
+            self.tree.recycle()
 
     def action_record(self):
         file_name = self.directory.tapes + "tape_{}".format(datetime.now().strftime('%Y%m%d%H%M%S%f'))
-        save_file(self.get_file_content(), file_name)
-    #
+        if ask("Backup", "Do You want to save backup tape of task tree?"):
+            save_file(self.get_file_content(), file_name)
+            self.set_message("Tape saved in {}".format(file_name))
 
     def action_save(self):
         if self.tree.modified:

@@ -1,6 +1,8 @@
 import re
 import uuid
 
+from PyQt5.QtWidgets import QMessageBox
+
 def new_id():
     return str(uuid.uuid4().hex)
 
@@ -44,3 +46,16 @@ def get_file_contents(path):
     with open(path, 'r') as _file:
         content = _file.readlines() 
     return content
+
+def ask(title, question):
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Question)
+
+    msg.setText(question)
+    msg.setWindowTitle(title)
+    msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+    if msg.exec() == QMessageBox.Yes:
+        return True
+    else:
+        return False

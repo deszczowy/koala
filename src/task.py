@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QTextEdit, QInputDialog
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QTextEdit, QInputDialog, QShortcut, QLabel
 from tool import *
 
 class Task(QWidget):
@@ -21,9 +22,16 @@ class Task(QWidget):
         self.form = QVBoxLayout()
         self.caption = QLineEdit()
         self.comment = QTextEdit()
+        self.parent_info = QLabel()
         self.form.addLayout(self.buttons)
         self.form.addWidget(self.caption)
         self.form.addWidget(self.comment)
+        self.form.addWidget(self.parent_info)
+
+        shortcut_add = QShortcut(QKeySequence("Ctrl+Q"), self)
+        shortcut_cnl = QShortcut(QKeySequence("Esc"), self)
+        shortcut_add.activated.connect(self.add)
+        shortcut_cnl.activated.connect(self.cancel)
         
         self.setLayout(self.form)
         self.reset()
@@ -32,6 +40,7 @@ class Task(QWidget):
     def reset(self):
         self.caption.setText("")
         self.comment.setText("")
+        self.parent_info.setText("")
         self.tree = None
 
     def show_window(self, tree, parent_node):
@@ -40,7 +49,8 @@ class Task(QWidget):
         if parent_node != None:
             title = "New task for '{}'".format(parent_node.caption)
             self.parent_node_identifier = parent_node.identifier
-        self.setWindowTitle(title)
+        self.parent_info.setText(title)
+        self.caption.setFocus()
         self.show()
 
     def add(self):
