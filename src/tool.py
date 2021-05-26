@@ -9,7 +9,7 @@ def new_id():
 def decompose_leaf(line):
     if line != "":
         m = re.match(r"(.*?)\|(.*?)\|(.*?)\|(.*?)\|(.*?)\|(.*)", line)
-        if len(m.groups()) == 6:
+        if m != None and len(m.groups()) == 6:
             return (
                 m.group(1),
                 m.group(2),
@@ -59,3 +59,9 @@ def ask(title, question):
         return True
     else:
         return False
+
+def sanitize(text):
+    return text.replace("\n", "\u0003").replace("\r", "\u0002")
+
+def desanitize(text):
+    return text.replace("\u0003", "\n").replace("\u0002", "\r")

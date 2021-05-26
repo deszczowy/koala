@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut
 from datetime import datetime
 
 from tool import *
@@ -7,6 +7,7 @@ from tree import *
 from task import *
 from style import *
 from timer import *
+from info import *
 from directory import *
 
 class Orchard(QMainWindow):
@@ -28,6 +29,7 @@ class Orchard(QMainWindow):
         self.setup_window()
 
         self.timer = Timer(self)
+        self.info = Info()
 
     def create_buttons(self):
         self.button_add = QPushButton("\u271A") #+
@@ -54,6 +56,12 @@ class Orchard(QMainWindow):
         self.button_record.setCursor(Qt.PointingHandCursor)
         self.button_record.setToolTip("Create new tape record snapshot backup")
 
+        self.button_info = QPushButton("\U0001F6C8") #info
+        self.button_info.setObjectName("ToolBarButton")
+        self.button_info.clicked.connect(self.action_info)
+        self.button_info.setCursor(Qt.PointingHandCursor)
+        self.button_info.setToolTip("About this app")
+
     def create_toolbar(self):
         self.toolbar = QWidget()
         self.toolbar_layout = QVBoxLayout()
@@ -68,6 +76,7 @@ class Orchard(QMainWindow):
         self.toolbar_layout.addWidget(self.button_recycle)
         self.toolbar_layout.addWidget(self.button_record)
         self.toolbar_layout.addStretch()
+        self.toolbar_layout.addWidget(self.button_info)
 
     def create_window(self):
         self.window = QWidget()
@@ -94,6 +103,7 @@ class Orchard(QMainWindow):
     def setup_window(self):
         self.setWindowIcon(QIcon("./icon.png"))
         self.setMinimumSize(700, 500)
+        self.center_window()
         self.setWindowTitle("Koala")
         self.setCentralWidget(self.window)
         self.setStyleSheet(application_stylesheet)
@@ -143,6 +153,9 @@ class Orchard(QMainWindow):
             save_file(self.get_file_content(), self.directory.storage)
             self.tree.modified = False
             self.set_message("Saved")
+    
+    def action_info(self):
+        self.info.show_info()
 
     def get_file_content(self):
         return self.tree.get_data_sheet()
@@ -158,4 +171,9 @@ class Orchard(QMainWindow):
     def clear_message(self):
         self.status.setText("")
 
-
+    def center_window(self):
+        geometry = self.frameGeometry()
+        screen = QApplication.desktop().screenNumber(QApplication.desktop().cursor().pos())
+        centerPoint = QApplication.desktop().screenGeometry(screen).center()
+        geometry.moveCenter(centerPoint)
+        self.move(geometry.topLeft())

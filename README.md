@@ -1,5 +1,5 @@
 # Koala
-`version 0.2`
+`version 0.3`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -12,19 +12,19 @@ So, this one is for me.
 
 ## Cookbook
 
-### *Add* ([Unicode](https://unicode-table.com/en/271A/), &#10010; `Ctrl+N`)
+### *Add* ([&#10010;](https://unicode-table.com/en/271A/), `Ctrl+N`)
 Use it to add new task to the tree. If you want to add subtask to existing task, select this task before clicking. Task tree will be accessible during the addition process, but selecting another task on tree will not update the parent task on form. Maybe in next versions. Maybe.
 
-`Ctrl+Q` - confirms adding the task
+`Ctrl+Q` - confirms adding the task\
 `Esc` - cancels process
 
-### *Delete* ([Unicode](https://unicode-table.com/en/2715/), &#10005; `Ctrl+D`)
+### *Delete* ([&#10005;](https://unicode-table.com/en/2715/), `Ctrl+D`)
 Use it to remove selected task, but remember, if any of subtasks are not done, removing will fail.
 
-### *Recycle* ([Unicode](https://unicode-table.com/en/2B6F/), &#11119; `Ctrl+R`)
+### *Recycle* ([&#11119;](https://unicode-table.com/en/2B6F/), `Ctrl+R`)
 Many done tasks on a list? Throw them all away at once with this special button.
 
-### *Casette* ([Unicode](https://unicode-table.com/en/1F5AD/), &#128429; `Ctrl+B`)
+### *Casette* ([&#128429;](https://unicode-table.com/en/1F5AD/), `Ctrl+B`)
 Use it to store current state of the tree in a snapshot file.
 
 ## Autosave
@@ -58,7 +58,6 @@ It is not polished piece of art, need some work maybe. Some highlights of what h
 - task edit
 - reminders list 
 - reminder window or system notification
-- questions before deletion (yep..)
 - "about" window
 
 More extensive todo list is stored in, well, this app :)

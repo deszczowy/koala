@@ -1,6 +1,8 @@
 from PyQt5.QtCore import * 
 from PyQt5.QtWidgets import QTreeWidgetItem
 
+from tool import *
+
 class Leaf(QTreeWidgetItem):
     def __init__(self, parent, data):
         super(Leaf, self).__init__(parent)
@@ -10,12 +12,12 @@ class Leaf(QTreeWidgetItem):
         self.update(data)
 
     def update(self, data):
-        self.identifier = data[0]
-        self.parent_id = data[1]
-        self.caption = data[2]
-        self.comment = data[3]
-        self.reminder = data[4]
-        if data[5] == "1":
+        self.identifier = str(data[0])
+        self.parent_id = str(data[1])
+        self.caption = str(data[2])
+        self.comment = desanitize(str(data[3]))
+        self.reminder = str(data[4])
+        if str(data[5]) == "1":
             self.setCheckState(0, Qt.Checked)
         else:
             self.setCheckState(0, Qt.Unchecked)

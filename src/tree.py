@@ -66,7 +66,7 @@ class Tree(QTreeWidget):
                 item.identifier,
                 item.parent_id,
                 item.caption,
-                item.comment,
+                sanitize(item.comment),
                 item.reminder,
                 "1" if item.checkState(0) == Qt.Checked else "0"
             )
