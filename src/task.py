@@ -1,6 +1,7 @@
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QTextEdit, QInputDialog, QShortcut, QLabel
 from tool import *
+from leaf import *
 
 class Task(QWidget):
 
@@ -9,13 +10,14 @@ class Task(QWidget):
         self.layout = QHBoxLayout()
         self.parent_node_identifier = "_"
         self.tree = None
+        self.edited = None
 
         self.buttons = QHBoxLayout()
-        self.button_add = QPushButton("Add")
-        self.button_add.clicked.connect(self.add)
+        self.button_confirm = QPushButton("Add")
+        self.button_confirm.clicked.connect(self.confirm)
         self.button_cancel = QPushButton("Cancel")
         self.button_cancel.clicked.connect(self.cancel)
-        self.buttons.addWidget(self.button_add)
+        self.buttons.addWidget(self.button_confirm)
         self.buttons.addStretch()
         self.buttons.addWidget(self.button_cancel)
 
@@ -28,9 +30,9 @@ class Task(QWidget):
         self.form.addWidget(self.comment)
         self.form.addWidget(self.parent_info)
 
-        shortcut_add = QShortcut(QKeySequence("Ctrl+Q"), self)
+        shortcut_cfm = QShortcut(QKeySequence("Ctrl+Q"), self)
         shortcut_cnl = QShortcut(QKeySequence("Esc"), self)
-        shortcut_add.activated.connect(self.add)
+        shortcut_cfm.activated.connect(self.confirm)
         shortcut_cnl.activated.connect(self.cancel)
         
         self.setLayout(self.form)
@@ -42,27 +44,53 @@ class Task(QWidget):
         self.comment.setText("")
         self.parent_info.setText("")
         self.tree = None
+        self.edited = None
 
-    def show_window(self, tree, parent_node):
+    def show_add(self, tree, parent_node):
+        self.button_confirm.setText("Add")
         title = "New task"
         self.tree = tree        
         if parent_node != None:
             title = "New task for '{}'".format(parent_node.caption)
             self.parent_node_identifier = parent_node.identifier
+        else:
+            self.parent_node_identifier = "_"
         self.parent_info.setText(title)
         self.caption.setFocus()
         self.show()
 
-    def add(self):
-        leaf = (
-            new_id(), 
-            self.parent_node_identifier, 
-            self.caption.text(), 
-            self.comment.toPlainText(), 
-            "",
-            "0"
-        )
-        self.tree.add_leaf(leaf)
+    def show_edit(self, tree, leaf):
+        self.button_confirm.setText("Save")
+        self.edited = leaf
+        self.tree = tree
+        self.caption.setText(leaf.caption)
+        self.comment.setText(leaf.comment)
+        self.caption.setFocus()
+        self.show()
+
+    def confirm(self):
+        if self.edited == None:
+            leaf = (
+                new_id(), 
+                self.parent_node_identifier, 
+                self.caption.text(), 
+                self.comment.toPlainText(), 
+                "",
+                "0"
+            )
+            self.tree.add_leaf(leaf)
+        else:
+            self.edited.update(
+                (
+                    self.edited.identifier,
+                    self.edited.parent_id,
+                    self.caption.text(),
+                    self.comment.toPlainText(),
+                    self.edited.reminder,
+                    "0" if self.edited.checkState(0) == Qt.Unchecked else "1"
+                )
+            )
+
         self.cancel()
     
     def cancel(self):

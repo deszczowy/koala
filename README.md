@@ -1,5 +1,5 @@
 # Koala
-`version 0.3`
+`version 0.4`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -15,8 +15,13 @@ So, this one is for me.
 ### *Add* ([&#10010;](https://unicode-table.com/en/271A/), `Ctrl+N`)
 Use it to add new task to the tree. If you want to add subtask to existing task, select this task before clicking. Task tree will be accessible during the addition process, but selecting another task on tree will not update the parent task on form. Maybe in next versions. Maybe.
 
-`Ctrl+Q` - confirms adding the task\
+### *Edit* ([&#0177;](https://unicode-table.com/en/00B1/), `Ctrl+E`)
+Select task you want to edit and click this button. You will see a "new task" form filled with task data.
+
+`Ctrl+Q` - confirms adding or editing the task\
 `Esc` - cancels process
+
+Items can be deselect by clicking on the free space below the tree (status bar included).
 
 ### *Delete* ([&#10005;](https://unicode-table.com/en/2715/), `Ctrl+D`)
 Use it to remove selected task, but remember, if any of subtasks are not done, removing will fail.
@@ -37,7 +42,7 @@ Tasks are stored in plain text file. You can manage your cloud syncing by pointi
 
 Backup tapes will be stored in `tapes` directory in provided path.
 
-You don't even need app to add or remove tasks since they are stored in plain text file. It could by painful, but not impossible. Look around, if you want. Little tip here: row identifiers does not have to be uuids, any reasonable string will work.
+You don't even need app to add or remove tasks since they are stored in plain text file. It could by painful, but not impossible. Look around, if you want. Little tip here: row identifiers does not have to be uuids, any reasonable string will work. Storage file is utf-8 encoded.
 
 ## Categories, anyone?
 
@@ -55,10 +60,8 @@ Beautiful icon was made by <a href="https://www.freepik.com" title="Freepik">Fre
 
 It is not polished piece of art, need some work maybe. Some highlights of what has to be done are pointed below:
 
-- task edit
 - reminders list 
 - reminder window or system notification
-- "about" window
 
 More extensive todo list is stored in, well, this app :)
 

@@ -25,7 +25,7 @@ def read_file(file_name):
         file_name = "./leafs.txt"
 
     section = 0
-    with open (file_name, "r") as tree_file:
+    with open (file_name, mode="r", encoding="utf-8") as tree_file:
         lines=tree_file.readlines()
 
     leafs = []
@@ -38,12 +38,12 @@ def read_file(file_name):
 def save_file(content, file_name):
     if file_name == None:
         file_name = "./leafs.txt"
-    with open(file_name, "w+") as _file:
+    with open(file_name, mode="w+", encoding="utf-8") as _file:
         _file.write(content)
 
 def get_file_contents(path):
     content = []
-    with open(path, 'r') as _file:
+    with open(path, mode="r", encoding="utf-8") as _file:
         content = _file.readlines() 
     return content
 

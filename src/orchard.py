@@ -9,6 +9,7 @@ from style import *
 from timer import *
 from info import *
 from directory import *
+from status import *
 
 class Orchard(QMainWindow):
 
@@ -37,6 +38,12 @@ class Orchard(QMainWindow):
         self.button_add.clicked.connect(self.action_add)
         self.button_add.setCursor(Qt.PointingHandCursor)
         self.button_add.setToolTip("Create new task")
+
+        self.button_edit = QPushButton("\u00B1") #+/-
+        self.button_edit.setObjectName("ToolBarButton")
+        self.button_edit.clicked.connect(self.action_edit)
+        self.button_edit.setCursor(Qt.PointingHandCursor)
+        self.button_edit.setToolTip("Edit selected task")
 
         self.button_remove = QPushButton("\u2715") #x
         self.button_remove.setObjectName("ToolBarButton")
@@ -72,6 +79,7 @@ class Orchard(QMainWindow):
 
     def compose_toolbar(self):
         self.toolbar_layout.addWidget(self.button_add)
+        self.toolbar_layout.addWidget(self.button_edit)
         self.toolbar_layout.addWidget(self.button_remove)
         self.toolbar_layout.addWidget(self.button_recycle)
         self.toolbar_layout.addWidget(self.button_record)
@@ -92,9 +100,9 @@ class Orchard(QMainWindow):
 
     def create_workspace(self):
         self.workspace = QVBoxLayout()
-        self.tree = Tree()
+        self.tree = Tree(self)
         self.task = Task()
-        self.status = QLabel()
+        self.status = Status(self)
         self.status.setObjectName("StatusBar")
         self.status.setAlignment(Qt.AlignRight)
         self.workspace.addWidget(self.tree)
@@ -111,11 +119,13 @@ class Orchard(QMainWindow):
 
     def create_chortcuts(self):
         shortcut_add = QShortcut(QKeySequence("Ctrl+N"), self)
+        shortcut_edt = QShortcut(QKeySequence("Ctrl+E"), self)
         shortcut_del = QShortcut(QKeySequence("Ctrl+D"), self)
         shortcut_rec = QShortcut(QKeySequence("Ctrl+R"), self)
         shortcut_bkp = QShortcut(QKeySequence("Ctrl+B"), self)
 
         shortcut_add.activated.connect(self.action_add)
+        shortcut_edt.activated.connect(self.action_edit)
         shortcut_del.activated.connect(self.action_delete)
         shortcut_rec.activated.connect(self.action_recycle)
         shortcut_bkp.activated.connect(self.action_record)
@@ -129,7 +139,13 @@ class Orchard(QMainWindow):
         item = None
         if len(self.tree.selectedItems()) > 0:
             item = self.tree.selectedItems()[0]
-        self.task.show_window(self.tree, item)
+        self.task.show_add(self.tree, item)
+
+    def action_edit(self):
+        item = None
+        if len(self.tree.selectedItems()) > 0:
+            item = self.tree.selectedItems()[0]
+            self.task.show_edit(self.tree, item)
 
     def action_delete(self):
         if ask("Task delete", "Do You want to delete selected task?"):

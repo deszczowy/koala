@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItemIterator, QHeaderView
 from leaf import *
 
 class Tree(QTreeWidget):
-    def __init__(self):
-        super(Tree, self).__init__()
+    def __init__(self, parent):
+        super(Tree, self).__init__(parent)
         self.setHeaderLabels(["Label", "Description"])
         self.header().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.model().dataChanged.connect(self.data_changed)

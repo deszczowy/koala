@@ -8,7 +8,7 @@ class Info(QWidget):
         super(Info, self).__init__()
 
         myPixmap = QtGui.QPixmap('./icon.png')
-        self.setMinimumSize(400, 400)
+        self.setMinimumSize(300, 300)
         self.setWindowTitle("I am Koala")
 
         layout = QVBoxLayout()
@@ -51,6 +51,7 @@ class Info(QWidget):
         <br /><br />
 
         Ctrl+N - add task<br />
+        Ctrl+E - edit task<br />
         Ctrl+D - delete task<br />
         Ctrl+R - remove all done tasks<br />
         Ctrl+B - save backup tape<br />
