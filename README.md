@@ -1,5 +1,5 @@
 # Koala
-`version 0.4`
+`version 0.5`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -13,15 +13,13 @@ So, this one is for me.
 ## Cookbook
 
 ### *Add* ([&#10010;](https://unicode-table.com/en/271A/), `Ctrl+N`)
-Use it to add new task to the tree. If you want to add subtask to existing task, select this task before clicking. Task tree will be accessible during the addition process, but selecting another task on tree will not update the parent task on form. Maybe in next versions. Maybe.
+Use it to add new task to the tree. If you want to add subtask to existing task, select this task before clicking.
 
 ### *Edit* ([&#0177;](https://unicode-table.com/en/00B1/), `Ctrl+E`)
 Select task you want to edit and click this button. You will see a "new task" form filled with task data.
 
 `Ctrl+Q` - confirms adding or editing the task\
 `Esc` - cancels process
-
-Items can be deselect by clicking on the free space below the tree (status bar included).
 
 ### *Delete* ([&#10005;](https://unicode-table.com/en/2715/), `Ctrl+D`)
 Use it to remove selected task, but remember, if any of subtasks are not done, removing will fail.
@@ -32,13 +30,18 @@ Many done tasks on a list? Throw them all away at once with this special button.
 ### *Casette* ([&#128429;](https://unicode-table.com/en/1F5AD/), `Ctrl+B`)
 Use it to store current state of the tree in a snapshot file.
 
+## Hints
+
+- Items can be deselect by clicking on the free space below the tree (status bar included).
+- Double click on task to unfold description.
+
 ## Autosave
 
 Task saves automatic every 7 second and when closing. But who would close such a great app?
 
 ## Storage and syncing
 
-Tasks are stored in plain text file. You can manage your cloud syncing by pointing the app to your synced catalog. In order to do this, open or create `config.txt` file next to executable and put there an absolute path to your catalog (this file was created only for this). You can define plenty of paths there, app will go with first one that happen to exists. If you leave this file empty or path is invalid, or `config.txt` not exist - app will store task in file next to executable.
+Tasks are stored in plain text file. You can manage your cloud syncing by pointing the app to your synced catalog. In order to do this, open or create `config.txt` file next to executable and put there an absolute path to your catalog (this file was created only for this). You can define plenty of paths there, app will go with first one that happen to exists. If you leave this file empty or path is invalid, or `config.txt` not exist - app will store task in file next to executable. There is no need to restart an app, because every change done outside will refresh the tree.
 
 Backup tapes will be stored in `tapes` directory in provided path.
 

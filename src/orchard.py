@@ -1,3 +1,4 @@
+from PyQt5.QtCore import QFileSystemWatcher
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut
 from datetime import datetime
@@ -29,8 +30,19 @@ class Orchard(QMainWindow):
         self.create_chortcuts()
         self.setup_window()
 
+        self.create_watcher()
+
         self.timer = Timer(self)
         self.info = Info()
+
+    def create_watcher(self):
+        self.watcher = QFileSystemWatcher(self)
+        self.watcher.addPath(self.directory.storage)
+        self.watcher.fileChanged.connect(self.file_change_handler)
+
+    def file_change_handler(self, path):
+        self.tree.clear()
+        self.update_components()
 
     def create_buttons(self):
         self.button_add = QPushButton("\u271A") #+
@@ -94,18 +106,20 @@ class Orchard(QMainWindow):
 
     def compose_window(self):
         self.layout.addWidget(self.toolbar)
-        self.layout.addWidget(self.task)
         self.layout.addLayout(self.workspace)
         self.window.setLayout(self.layout)
 
     def create_workspace(self):
         self.workspace = QVBoxLayout()
+        page = QHBoxLayout()
         self.tree = Tree(self)
         self.task = Task()
+        page.addWidget(self.task)
+        page.addWidget(self.tree)
         self.status = Status(self)
         self.status.setObjectName("StatusBar")
         self.status.setAlignment(Qt.AlignRight)
-        self.workspace.addWidget(self.tree)
+        self.workspace.addLayout(page)
         self.workspace.addWidget(self.status)
 
     def setup_window(self):
@@ -139,12 +153,14 @@ class Orchard(QMainWindow):
         item = None
         if len(self.tree.selectedItems()) > 0:
             item = self.tree.selectedItems()[0]
+        self.tree.setEnabled(False)
         self.task.show_add(self.tree, item)
 
     def action_edit(self):
         item = None
         if len(self.tree.selectedItems()) > 0:
             item = self.tree.selectedItems()[0]
+            self.tree.setEnabled(False)
             self.task.show_edit(self.tree, item)
 
     def action_delete(self):
@@ -166,9 +182,11 @@ class Orchard(QMainWindow):
 
     def action_save(self):
         if self.tree.modified:
+            self.watcher.removePath(self.directory.storage)
             save_file(self.get_file_content(), self.directory.storage)
             self.tree.modified = False
             self.set_message("Saved")
+            self.watcher.addPath(self.directory.storage)
     
     def action_info(self):
         self.info.show_info()

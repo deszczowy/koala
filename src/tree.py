@@ -8,10 +8,18 @@ class Tree(QTreeWidget):
         self.setHeaderLabels(["Label", "Description"])
         self.header().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.model().dataChanged.connect(self.data_changed)
+        self.setExpandsOnDoubleClick(False)
         self.modified = False
+        self.itemDoubleClicked.connect(self.double_click)
 
     def data_changed(self):
         self.modified = True
+
+    def double_click(self, item):
+        if item != None:
+            modified = self.modified
+            item.update_mode()
+            self.modified = modified
 
     def fill(self, leafs):
         for leaf in leafs:

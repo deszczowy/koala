@@ -21,8 +21,6 @@ class Directory:
         self.config = self.root + os.path.sep + self.config_name
         self.get_root_from_config()
 
-
-
         self.tapes = self.root + os.path.sep + self.tapes_name
         Path(self.tapes).mkdir(parents=True, exist_ok=True)
         self.tapes += os.path.sep

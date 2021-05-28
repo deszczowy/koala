@@ -1,7 +1,5 @@
 from PyQt5.QtWidgets import QLabel
 
-from orchard import *
-
 class Status(QLabel):
 
     def __init__(self, parent):

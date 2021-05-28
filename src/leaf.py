@@ -8,7 +8,7 @@ class Leaf(QTreeWidgetItem):
         super(Leaf, self).__init__(parent)
         self.setFlags(self.flags() | Qt.ItemIsUserCheckable)
         self.setExpanded(True)
-
+        self.preview_mode = True
         self.update(data)
 
     def update(self, data):
@@ -23,7 +23,14 @@ class Leaf(QTreeWidgetItem):
             self.setCheckState(0, Qt.Unchecked)
 
         self.setText(0, self.caption)
-        self.setText(1, self.comment)
+        self.update_mode()
+
+    def update_mode(self):
+        self.preview_mode = not self.preview_mode
+        if self.preview_mode:
+            self.setText(1, self.comment)
+        else:
+            self.setText(1, shorten(self.comment))
 
     def are_all_children_checked(self):
         for i in range(self.childCount()):

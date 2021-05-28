@@ -65,3 +65,14 @@ def sanitize(text):
 
 def desanitize(text):
     return text.replace("\u0003", "\n").replace("\u0002", "\r")
+
+def shorten(text):
+    limit = 50
+    line_end = text.find("\n")
+
+    if line_end < 0 and len(text) < limit:
+        return text
+
+    if line_end < 0 or line_end > limit:
+        line_end = limit
+    return text[:line_end] + "..."

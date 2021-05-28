@@ -7,6 +7,7 @@ class Task(QWidget):
 
     def __init__(self):
         super(Task, self).__init__()
+        self.setFixedWidth(300)
         self.layout = QHBoxLayout()
         self.parent_node_identifier = "_"
         self.tree = None
@@ -23,6 +24,7 @@ class Task(QWidget):
 
         self.form = QVBoxLayout()
         self.caption = QLineEdit()
+        self.caption.returnPressed.connect(self.go_to_comment)
         self.comment = QTextEdit()
         self.parent_info = QLabel()
         self.form.addLayout(self.buttons)
@@ -80,6 +82,7 @@ class Task(QWidget):
             )
             self.tree.add_leaf(leaf)
         else:
+            self.edited.preview_mode = not self.edited.preview_mode
             self.edited.update(
                 (
                     self.edited.identifier,
@@ -94,6 +97,10 @@ class Task(QWidget):
         self.cancel()
     
     def cancel(self):
+        self.tree.setEnabled(True)
         self.reset()
         self.hide()
+
+    def go_to_comment(self):
+        self.comment.setFocus()
 
