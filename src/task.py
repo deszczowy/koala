@@ -5,12 +5,12 @@ from leaf import *
 
 class Task(QWidget):
 
-    def __init__(self):
-        super(Task, self).__init__()
+    def __init__(self, parent):
+        super(Task, self).__init__(parent)
+        self.parent = parent
         self.setFixedWidth(300)
         self.layout = QHBoxLayout()
         self.parent_node_identifier = "_"
-        self.tree = None
         self.edited = None
 
         self.buttons = QHBoxLayout()
@@ -45,13 +45,11 @@ class Task(QWidget):
         self.caption.setText("")
         self.comment.setText("")
         self.parent_info.setText("")
-        self.tree = None
         self.edited = None
 
-    def show_add(self, tree, parent_node):
+    def show_add(self, parent_node):
         self.button_confirm.setText("Add")
-        title = "New task"
-        self.tree = tree        
+        title = "New task"       
         if parent_node != None:
             title = "New task for '{}'".format(parent_node.caption)
             self.parent_node_identifier = parent_node.identifier
@@ -61,10 +59,9 @@ class Task(QWidget):
         self.caption.setFocus()
         self.show()
 
-    def show_edit(self, tree, leaf):
+    def show_edit(self, leaf):
         self.button_confirm.setText("Save")
         self.edited = leaf
-        self.tree = tree
         self.caption.setText(leaf.caption)
         self.comment.setText(leaf.comment)
         self.caption.setFocus()
@@ -80,7 +77,7 @@ class Task(QWidget):
                 "",
                 "0"
             )
-            self.tree.add_leaf(leaf)
+            self.parent.tree.add_leaf(leaf)
         else:
             self.edited.preview_mode = not self.edited.preview_mode
             self.edited.update(
@@ -97,7 +94,7 @@ class Task(QWidget):
         self.cancel()
     
     def cancel(self):
-        self.tree.setEnabled(True)
+        self.parent.unlock_workspace()
         self.reset()
         self.hide()
 

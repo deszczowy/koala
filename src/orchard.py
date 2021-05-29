@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QFileSystemWatcher
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QShortcut, QLineEdit
 from datetime import datetime
 
 from tool import *
@@ -11,6 +11,7 @@ from timer import *
 from info import *
 from directory import *
 from status import *
+from search import *
 
 class Orchard(QMainWindow):
 
@@ -111,14 +112,16 @@ class Orchard(QMainWindow):
 
     def create_workspace(self):
         self.workspace = QVBoxLayout()
+        self.search = Search()
         page = QHBoxLayout()
         self.tree = Tree(self)
-        self.task = Task()
+        self.task = Task(self)
         page.addWidget(self.task)
         page.addWidget(self.tree)
         self.status = Status(self)
         self.status.setObjectName("StatusBar")
         self.status.setAlignment(Qt.AlignRight)
+        self.workspace.addWidget(self.search)
         self.workspace.addLayout(page)
         self.workspace.addWidget(self.status)
 
@@ -129,7 +132,7 @@ class Orchard(QMainWindow):
         self.setWindowTitle("Koala")
         self.setCentralWidget(self.window)
         self.setStyleSheet(application_stylesheet)
-        self.tree.setFocus()
+        self.search.focus()
 
     def create_chortcuts(self):
         shortcut_add = QShortcut(QKeySequence("Ctrl+N"), self)
@@ -153,15 +156,15 @@ class Orchard(QMainWindow):
         item = None
         if len(self.tree.selectedItems()) > 0:
             item = self.tree.selectedItems()[0]
-        self.tree.setEnabled(False)
-        self.task.show_add(self.tree, item)
+        self.lock_workspace()
+        self.task.show_add(item)
 
     def action_edit(self):
         item = None
         if len(self.tree.selectedItems()) > 0:
             item = self.tree.selectedItems()[0]
-            self.tree.setEnabled(False)
-            self.task.show_edit(self.tree, item)
+            self.lock_workspace()
+            self.task.show_edit(item)
 
     def action_delete(self):
         if ask("Task delete", "Do You want to delete selected task?"):
@@ -211,3 +214,19 @@ class Orchard(QMainWindow):
         centerPoint = QApplication.desktop().screenGeometry(screen).center()
         geometry.moveCenter(centerPoint)
         self.move(geometry.topLeft())
+
+    def search_up(self):
+        if self.search.has_new_phrase():
+            p = self.search.new_phrase()
+            if p != "":
+                self.tree.mark_with_phrase(p)
+            else:
+                self.tree.unmark_items()
+
+    def lock_workspace(self):
+        self.tree.setEnabled(False)
+        self.search.hide()
+
+    def unlock_workspace(self):
+        self.tree.setEnabled(True)
+        self.search.show()

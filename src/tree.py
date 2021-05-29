@@ -1,4 +1,5 @@
-from PyQt5.QtCore import * 
+from PyQt5.QtCore import *
+from PyQt5.QtGui import QBrush, QColor
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItemIterator, QHeaderView
 from leaf import *
 
@@ -98,3 +99,41 @@ class Tree(QTreeWidget):
     def mousePressEvent(self, event):
         self.clearSelection()
         super().mousePressEvent(event)
+
+    def mark_with_phrase(self, phrase):
+        marked =  QColor.fromRgb(237, 201, 175)
+        white = QColor.fromRgbF(255, 255, 255, 1)
+        modified = self.modified
+
+        iterator = QTreeWidgetItemIterator(self)
+        while iterator.value():
+            item = iterator.value()
+            found = item.find(phrase)
+            if found == 1:
+                item.setBackground(0, marked)
+                item.setBackground(1, white)
+            elif found == 2:
+                item.setBackground(0, white)
+                item.setBackground(1, marked)
+            elif found == 3:
+                item.setBackground(0, marked)
+                item.setBackground(1, marked)
+            else:
+                item.setBackground(0, white)
+                item.setBackground(1, white)
+            iterator += 1
+        
+        self.modified = modified
+
+    def unmark_items(self):
+        color =  QColor.fromRgbF(255, 255, 255, 1)
+        modified = self.modified
+
+        iterator = QTreeWidgetItemIterator(self)
+        while iterator.value():
+            item = iterator.value()
+            item.setBackground(0, color)
+            item.setBackground(1, color)
+            iterator += 1
+
+        self.modified = modified

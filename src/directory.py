@@ -29,11 +29,6 @@ class Directory:
         if not Path(self.storage).is_file():
             save_file("", self.storage)
 
-        print(self.config)
-        print(self.root)
-        print(self.tapes)
-        print(self.storage)
-
     def get_root_from_config(self):
         if Path(self.config).is_file():
             paths = get_file_contents(self.config)

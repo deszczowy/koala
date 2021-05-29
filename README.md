@@ -1,5 +1,5 @@
 # Koala
-`version 0.5`
+`version 0.6`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -49,7 +49,7 @@ You don't even need app to add or remove tasks since they are stored in plain te
 
 ## Categories, anyone?
 
-Too long todo list is pointless. How many categories for your tasks do you need? Just keep your list short and organize your tasks in tree. Trust me, you will not need categories. 
+Too long todo list is pointless. How many categories for your tasks do you need? Just keep your list short and organize your tasks in tree. Trust me, you will not need categories. However, you can still search tasks with search field on top of the window, case insensitive.
 
 ## Warranty
 

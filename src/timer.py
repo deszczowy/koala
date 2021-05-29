@@ -9,6 +9,7 @@ class Timer:
         self.parent = parent
         self.schedule = QTimer(parent)
         self.messages = QTimer(parent)
+        self.searches = QTimer(parent)
         self.prepare()
         self.tic = 0
 
@@ -19,6 +20,9 @@ class Timer:
         self.messages.timeout.connect(self.message_tic)
         self.messages.start(self.ticking)
 
+        self.searches.timeout.connect(self.search_tic)
+        self.searches.start(self.ticking)
+
     def schedule_tic(self):
         self.parent.action_save()
     
@@ -27,6 +31,9 @@ class Timer:
             self.tic -= 1
         if self.tic == 1:
             self.parent.clear_message()
+    
+    def search_tic(self):
+        self.parent.search_up()
 
     def start(self):
         self.tic = 5

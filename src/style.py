@@ -24,4 +24,17 @@ application_stylesheet = """
     padding: 5px;
     background-color: #fff;
 }
+
+QTreeWidget::item:selected
+{
+    background:#93dfb8;
+    color: #000;
+    border: 0px;
+}
+
+#SearchButton
+{
+    border: 0px;
+    width: 30px;
+}
 """

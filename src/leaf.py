@@ -37,3 +37,11 @@ class Leaf(QTreeWidgetItem):
             if self.child(i).checkState(0) == Qt.Unchecked:
                 return False
         return True
+
+    def find(self, phrase):
+        result = 0
+        if self.caption.lower().find(phrase) >= 0:
+            result += 1
+        if self.comment.lower().find(phrase) >= 0:
+            result += 2
+        return result
