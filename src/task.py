@@ -1,7 +1,9 @@
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QTextEdit, QInputDialog, QShortcut, QLabel
+
 from tool import *
 from leaf import *
+from reminder import *
 
 class Task(QWidget):
 
@@ -25,10 +27,12 @@ class Task(QWidget):
         self.form = QVBoxLayout()
         self.caption = QLineEdit()
         self.caption.returnPressed.connect(self.go_to_comment)
+        self.reminder = Reminder(self)
         self.comment = QTextEdit()
         self.parent_info = QLabel()
         self.form.addLayout(self.buttons)
         self.form.addWidget(self.caption)
+        self.form.addWidget(self.reminder)
         self.form.addWidget(self.comment)
         self.form.addWidget(self.parent_info)
 
@@ -39,11 +43,12 @@ class Task(QWidget):
         
         self.setLayout(self.form)
         self.reset()
-        self.hide()
+        self.hide()        
 
     def reset(self):
         self.caption.setText("")
         self.comment.setText("")
+        self.reminder.clear()
         self.parent_info.setText("")
         self.edited = None
 
@@ -56,6 +61,7 @@ class Task(QWidget):
         else:
             self.parent_node_identifier = "_"
         self.parent_info.setText(title)
+        self.reminder.set_date()
         self.caption.setFocus()
         self.show()
 
@@ -64,6 +70,7 @@ class Task(QWidget):
         self.edited = leaf
         self.caption.setText(leaf.caption)
         self.comment.setText(leaf.comment)
+        self.reminder.set_date(leaf.reminder)
         self.caption.setFocus()
         self.show()
 
@@ -74,7 +81,7 @@ class Task(QWidget):
                 self.parent_node_identifier, 
                 self.caption.text(), 
                 self.comment.toPlainText(), 
-                "",
+                self.reminder.date(),
                 "0"
             )
             self.parent.tree.add_leaf(leaf)
@@ -86,7 +93,7 @@ class Task(QWidget):
                     self.edited.parent_id,
                     self.caption.text(),
                     self.comment.toPlainText(),
-                    self.edited.reminder,
+                    self.reminder.date(),
                     "0" if self.edited.checkState(0) == Qt.Unchecked else "1"
                 )
             )

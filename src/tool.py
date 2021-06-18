@@ -61,10 +61,10 @@ def ask(title, question):
         return False
 
 def sanitize(text):
-    return text.replace("\n", "\u0003").replace("\r", "\u0002")
+    return text.replace("\n", "\u0003").replace("\r", "\u0002").replace("|", "\u0019")
 
 def desanitize(text):
-    return text.replace("\u0003", "\n").replace("\u0002", "\r")
+    return text.replace("\u0003", "\n").replace("\u0002", "\r").replace("\u0019", "|")
 
 def shorten(text):
     limit = 50
@@ -76,3 +76,6 @@ def shorten(text):
     if line_end < 0 or line_end > limit:
         line_end = limit
     return text[:line_end] + "..."
+
+def date_empty(date):
+    return date.replace(":", "").replace("-", "").strip() == ""

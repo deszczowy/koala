@@ -1,5 +1,5 @@
 # Koala
-`version 0.6`
+`version 0.7`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -39,6 +39,10 @@ Use it to store current state of the tree in a snapshot file.
 
 Task saves automatic every 7 second and when closing. But who would close such a great app?
 
+## Reminders
+
+If reminder date was added to task, reminder will pop once on this time and once on startup, if task is not done. Reminders will not repeatedly bother you in intervals.
+
 ## Storage and syncing
 
 Tasks are stored in plain text file. You can manage your cloud syncing by pointing the app to your synced catalog. In order to do this, open or create `config.txt` file next to executable and put there an absolute path to your catalog (this file was created only for this). You can define plenty of paths there, app will go with first one that happen to exists. If you leave this file empty or path is invalid, or `config.txt` not exist - app will store task in file next to executable. There is no need to restart an app, because every change done outside will refresh the tree.
@@ -61,13 +65,4 @@ Beautiful icon was made by <a href="https://www.freepik.com" title="Freepik">Fre
 
 ## Work in progress
 
-It is not polished piece of art, need some work maybe. Some highlights of what has to be done are pointed below:
-
-- reminders list 
-- reminder window or system notification
-
-More extensive todo list is stored in, well, this app :)
-
-## Plans
-
-Main focus now is on fixing bugs and ease of using. The only planned feature is reminder trigger, but I will think about it. Thats it. This is simple todo list. No calendars, no Markdown or picture support, no additional notes, no internet connection with fridge.
+It is not polished piece of art, need some work maybe, now main focus is on fixing bugs and ease of using. Thats it. This is simple todo list. No calendars, no Markdown or picture support, no additional notes, no internet connection with fridge.

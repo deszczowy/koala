@@ -12,12 +12,14 @@ from info import *
 from directory import *
 from status import *
 from search import *
+from clock import *
 
 class Orchard(QMainWindow):
 
     def __init__(self):
         super(Orchard, self).__init__()
         self.directory = Directory()
+        self.clock = Clock()
         self.create_window()
 
         self.create_toolbar()
@@ -32,7 +34,6 @@ class Orchard(QMainWindow):
         self.setup_window()
 
         self.create_watcher()
-
         self.timer = Timer(self)
         self.info = Info()
 
@@ -150,6 +151,8 @@ class Orchard(QMainWindow):
     def update_components(self):
         data = read_file(self.directory.storage)
         self.tree.fill(data)
+        self.clock.reboot(self.tree.reminders())
+        self.clock.remind_past()
 
     # buttons
     def action_add(self):
@@ -222,6 +225,9 @@ class Orchard(QMainWindow):
                 self.tree.mark_with_phrase(p)
             else:
                 self.tree.unmark_items()
+
+    def remind_me(self):
+        self.clock.check()
 
     def lock_workspace(self):
         self.tree.setEnabled(False)

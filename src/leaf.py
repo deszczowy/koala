@@ -12,6 +12,7 @@ class Leaf(QTreeWidgetItem):
         self.update(data)
 
     def update(self, data):
+        self.setText(0, "")
         self.identifier = str(data[0])
         self.parent_id = str(data[1])
         self.caption = str(data[2])

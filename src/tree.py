@@ -137,3 +137,13 @@ class Tree(QTreeWidget):
             iterator += 1
 
         self.modified = modified
+
+    def reminders(self):
+        dates = []
+        iterator = QTreeWidgetItemIterator(self)
+        while iterator.value():
+            item = iterator.value()
+            if item.reminder != "" and item.checkState(0) == Qt.Unchecked:
+                dates.append((item.reminder, item.caption))
+            iterator += 1
+        return dates
