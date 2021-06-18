@@ -45,7 +45,7 @@ class Info(QWidget):
         return """
         This simple todo app is created by <a href=\"https://github.com/deszczowy\">Deszczowy</a>
         <br /><br />
-        Version 0.7
+        Version 0.8
         <br /><br />
 
         Icon was made by <a href=\"https://www.freepik.com\" title=\"Freepik\">Freepik</a> 

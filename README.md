@@ -1,5 +1,5 @@
 # Koala
-`version 0.7`
+`version 0.8`
 
 > There are nine million todo apps on GitHub\
 > That's a fact\
@@ -9,6 +9,8 @@
 This app born of frustration that there is no simple todo application for me out there. Most of them are packed with features which i don't need, or have no both Windows and Linux clients, or their clients are RAM consuming Electron wraps, or are discontinued on recent distros, or something else, you name it. 
 
 So, this one is for me.
+
+This one is working on Linux and Windows, have no idea if it is going to work on MacOS - feel free to try.
 
 ## Cookbook
 
